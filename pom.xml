@@ -9,9 +9,34 @@
 
 Allows to fork a class in a separate JVM and remotely control it. Usefull to run multi JVM unit tests or create mocks that need to run in a separate JVM</description>
 
+	<url>https://github.com/cedricvidal/jforkr/</url>
+	<inceptionYear>2013</inceptionYear>
+	<organization>
+		<name>Cedric Vidal</name>
+		<url>http://vidal.biz/</url>
+	</organization>
 	<properties>
 		<springframework.version>3.2.3.RELEASE</springframework.version>
 	</properties>
+	<scm>
+		<developerConnection>scm:git:ssh://git@github.com/cedricvidal/jforkr.git</developerConnection>
+		<connection>scm:git:ssh://git@github.com/cedricvidal/jforkr.git</connection>
+		<url>git:ssh://git@github.com/cedricvidal/jforkr.git</url>
+		<tag>HEAD</tag>
+	</scm>
+	<distributionManagement>
+		<downloadUrl>https://github.com/cedricvidal/jforkr</downloadUrl>
+		<repository>
+			<id>cedricvidal-cloudbees-release</id>
+			<name>cedricvidal-cloudbees-release</name>
+			<url>dav:https://repository-cedricvidal.forge.cloudbees.com/release/</url>
+		</repository>
+		<snapshotRepository>
+			<id>cedricvidal-cloudbees-snapshot</id>
+			<name>cedricvidal-cloudbees-snapshot</name>
+			<url>dav:https://repository-cedricvidal.forge.cloudbees.com/snapshot/</url>
+		</snapshotRepository>
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -163,7 +188,6 @@ Allows to fork a class in a separate JVM and remotely control it. Usefull to run
 					</exclusion>
 				</exclusions>
 			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -179,7 +203,19 @@ Allows to fork a class in a separate JVM and remotely control it. Usefull to run
 						<encoding>UTF-8</encoding>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.4.1</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav-jackrabbit</artifactId>
+				<version>2.5</version>
+			</extension>
+		</extensions>
 	</build>
 </project>
