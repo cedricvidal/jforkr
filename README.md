@@ -24,6 +24,7 @@ Forks the currently running JVM by detecting the current java executable and lau
 Exports your service using RMI in the forked JVM so that you can access it from the current JVM.
 You can control the forked JVM using a JvmController.
 A heartbeat makes sure your process is still alive so you know if it dies.
+The forked JVM commits suicide if it looses contact with the current JVM so that no dangling JVM are left over.
 
 Works around -cp length OS limitations by using classworlds.
 
