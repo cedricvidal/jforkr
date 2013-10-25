@@ -3,14 +3,6 @@ package biz.vidal.jforkr;
 import static biz.vidal.jforkr.internal.RmiUtil.importService;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -68,28 +60,6 @@ public class JvmBootstrapper<T> {
         this.processName = processName;
     }
 
-    private static void print(InputStream is) {
-        InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader br = new BufferedReader(isr);
-
-        String line;
-        try {
-            while ((line = br.readLine()) != null) {
-                log.info("Received input: " + line);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        log.info("No more input");
-    }
-
-    private static void redirectSysIO() throws FileNotFoundException {
-        File file = new File("booter.log");
-        PrintStream printStream = new PrintStream(new FileOutputStream(file));
-        System.setOut(printStream);
-        System.setErr(printStream);
-    }
-
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void run() throws Exception {
 
@@ -97,7 +67,7 @@ public class JvmBootstrapper<T> {
             @Override
             public void run() {
                 log.info("Terminated " + serviceInterfaceName);
-                log.info("Keepalive thread still running " + keepaliveRunning);
+                log.debug("Keepalive thread still running " + keepaliveRunning);
             }
         });
 
@@ -131,7 +101,7 @@ public class JvmBootstrapper<T> {
 
             @Override
             public void run() {
-                log.info("Starting keepalive thread");
+                log.debug("Starting keepalive thread");
                 keepaliveRunning.set(true);
                 try {
                     while (!stop.get()) {
@@ -152,7 +122,7 @@ public class JvmBootstrapper<T> {
                     keepaliveRunning.set(false);
                 }
                 if (!stop.get()) {
-                    log.info("Exit requested");
+                    log.debug("Exit requested");
                 }
                 exit();
             };
@@ -160,7 +130,7 @@ public class JvmBootstrapper<T> {
     }
 
     protected void exportService(Object service, Class<?> serviceInterface, String serviceName) throws InstantiationException, IllegalAccessException, RemoteException {
-        log.info("Exporting " + serviceInterface.getName() + " as " + serviceName);
+        log.debug("Exporting " + serviceInterface.getName() + " as " + serviceName);
         RmiServiceExporter exporter = new RmiServiceExporter();
         exporter.setService(service);
         exporter.setServiceInterface(serviceInterface);

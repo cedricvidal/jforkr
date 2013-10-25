@@ -151,7 +151,7 @@ public class JvmManager {
     }
 
     protected DisposableBean export(Object service, Class<?> serviceInterface, String serviceName, Registry registry) throws InstantiationException, IllegalAccessException, RemoteException {
-        log.info("Exporting " + serviceInterface.getName());
+        log.debug("Exporting " + serviceInterface.getName());
         RmiServiceExporter exporter = new RmiServiceExporter();
         exporter.setService(service);
         exporter.setServiceInterface(serviceInterface);
@@ -218,7 +218,7 @@ public class JvmManager {
         Set<String> vmArgs = new HashSet<String>();
         RuntimeMXBean RuntimemxBean = ManagementFactory.getRuntimeMXBean();
         vmArgs.addAll(filter(RuntimemxBean.getInputArguments(), isVmArgumentP()));
-        log.info("VM Args : " + Joiner.on(" ").join(vmArgs));
+        log.debug("VM Args : " + Joiner.on(" ").join(vmArgs));
         for (Iterator i = vmArgs.iterator(); i.hasNext() && controller.getDebugPort() == null;) {
             String vmArg = (String) i.next();
             if (vmArg.startsWith("-Xrunjdwp:transport=")) {
@@ -294,9 +294,7 @@ public class JvmManager {
     }
 
     protected void print(Process process, String processName) {
-        log.info("Input stream");
         print(process.getInputStream(), processName, "IN");
-        log.info("Error stream");
         print(process.getErrorStream(), processName, "ER");
     }
 
@@ -305,7 +303,7 @@ public class JvmManager {
         Thread thread = new Thread(threadName) {
             @Override
             public void run() {
-                log.info("Starting input reader thread " + threadName);
+                log.debug("Starting input reader thread " + threadName);
                 InputStreamReader isr = new InputStreamReader(is);
                 BufferedReader br = new BufferedReader(isr);
 
@@ -317,7 +315,7 @@ public class JvmManager {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                log.info("No more input for " + threadName);
+                log.debug("No more input for " + threadName);
             };
         };
         thread.setDaemon(true);
@@ -359,7 +357,7 @@ public class JvmManager {
             try {
                 ctrl.exit();
             } catch (Exception e) {
-                log.info("Failed to shutdown " + ctrl, e);
+                log.warn("Failed to shutdown " + ctrl, e);
             }
         }
         destroy(pingDisposer, "ping");

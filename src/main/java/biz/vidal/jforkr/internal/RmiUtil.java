@@ -18,7 +18,7 @@ public class RmiUtil {
         long timeoutMs = timeunit.toMillis(timeout);
 
         String url = "rmi://localhost:" + port + "/" + serviceName;
-        log.info("Creating RMI proxy for " + serviceInterface + " on " + url);
+        log.debug("Creating RMI proxy for " + serviceInterface + " on " + url);
         RmiProxyFactoryBean rmiFactory = new RmiProxyFactoryBean();
         rmiFactory.setServiceInterface(serviceInterface);
         rmiFactory.setServiceUrl(url);
