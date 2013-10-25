@@ -31,7 +31,7 @@ public class JvmControllerClientImpl<T> implements JvmController<T> {
     public void exit() {
         if (delegate != null) {
             synchronized (delegate) {
-                log.info("Shutting down " + service.getClass().getName());
+                log.debug("Shutting down " + service.getClass().getName());
                 try {
                     delegate.exit();
                 } catch (RemoteConnectFailureException e) {
