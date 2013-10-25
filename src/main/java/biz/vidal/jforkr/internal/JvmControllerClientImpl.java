@@ -2,6 +2,7 @@ package biz.vidal.jforkr.internal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.remoting.RemoteAccessException;
 import org.springframework.remoting.RemoteConnectFailureException;
 
 import biz.vidal.jforkr.JvmController;
@@ -35,8 +36,11 @@ public class JvmControllerClientImpl<T> implements JvmController<T> {
                     delegate.exit();
                 } catch (RemoteConnectFailureException e) {
                     ; // expected just after the process has been terminated
+                } catch (RemoteAccessException e) {
+                    ; // expected just after the process has been terminated
+                    kill();
                 } catch (Exception e) {
-                    log.info("Failed to shutdown " + service.getClass().getName() + " so killing it", e);
+                    log.warn("Failed to shutdown " + service.getClass().getName() + " so killing it", e);
                     kill();
                 } finally {
                     delegate = null;
