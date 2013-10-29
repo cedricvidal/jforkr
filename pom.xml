@@ -29,12 +29,12 @@ Allows to fork a class in a separate JVM and remotely control it. Usefull to run
 		<repository>
 			<id>cedricvidal-cloudbees-release</id>
 			<name>cedricvidal-cloudbees-release</name>
-			<url>dav:https://repository-cedricvidal.forge.cloudbees.com/release/</url>
+			<url>https://repository-cedricvidal.forge.cloudbees.com/release/</url>
 		</repository>
 		<snapshotRepository>
 			<id>cedricvidal-cloudbees-snapshot</id>
 			<name>cedricvidal-cloudbees-snapshot</name>
-			<url>dav:https://repository-cedricvidal.forge.cloudbees.com/snapshot/</url>
+			<url>https://repository-cedricvidal.forge.cloudbees.com/snapshot/</url>
 		</snapshotRepository>
 	</distributionManagement>
 	<dependencies>
