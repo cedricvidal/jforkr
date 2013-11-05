@@ -40,15 +40,15 @@ Sample usage
 
 	try {
 	
-		// Fork Echo service in a separate JVM and return a handle to its controller
-		JvmController<Echo> loadBalancerController = jvmManager.fork("Echo", Echo.class, EchoImpl.class);
+		// Forks Echo service in a separate JVM with the current classpath and returns a handle to its controller
+		JvmController<Echo> echoCtrl = jvmManager.fork("Echo", Echo.class, EchoImpl.class);
 		
 		// Gets the remote Echo service (exported using RMI)
-		Echo echo = loadBalancerController.getService();
+		Echo echo = echoCtrl.getService();
 
 		// If the current JVM has been started with debugging then the forked JVM can also be remotely debugged. Display port so that one can connect a remote debugger to the port.
-		if (loadBalancerController.getDebugPort() != null) {
-			log.info("Echo debug port is {}", loadBalancerController.getDebugPort());
+		if (echoCtrl.getDebugPort() != null) {
+			log.info("Echo debug port is {}", echoCtrl.getDebugPort());
 		}
 
 		// Check that the remote service works, all parameters must be Serializable
